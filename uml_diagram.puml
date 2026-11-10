@@ -1,9 +1,21 @@
 @startuml
 
 class Particle
-SpMat_DEN : - nz
-SpMat_DEN : - ncol
-SpMat_DEN : - nrow
-SpMat_DEN : - a[][]
+Particle : - mass
+Particle : - position
+Particle : - velocity
+Particle : - SetValue()
+Particle : - GetValue()
+Particle : - Grid_point_assignment()
+
+class Grid
+Grid : - position
+Grid : - particle_association[]
+Grid : - density
+
+class Quantity_Calculation
+Quantity_Calculation : - potential
+'
+Quantity_Calculation : + Final_Potential()
 
 @enduml
