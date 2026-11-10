@@ -1,0 +1,9 @@
+@startuml
+
+class Particle
+SpMat_DEN : - nz
+SpMat_DEN : - ncol
+SpMat_DEN : - nrow
+SpMat_DEN : - a[][]
+
+@enduml
