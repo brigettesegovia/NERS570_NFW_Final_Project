@@ -1,0 +1,25 @@
+@startuml
+
+class Particle
+Particle : - mass
+Particle : - position
+Particle : - velocity
+Particle : - setMass()
+Particle : - getMass()
+Particle : - setPos()
+Particle : - getPos()
+Particle : - setVel()
+Particle : - getVel()
+Particle : - grid_point_assignment()
+
+class Grid
+Grid : - position
+Grid : - particle_association[]
+Grid : - density
+
+class Quantity_Calculation
+Quantity_Calculation : - potential
+'
+Quantity_Calculation : + Final_Potential()
+
+@enduml
