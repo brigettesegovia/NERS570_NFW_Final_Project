@@ -18,4 +18,7 @@ Quantity_Calculation : - potential
 '
 Quantity_Calculation : + Final_Potential()
 
+Particle --> Grid
+Grid --> Quantity_Calculation
+
 @enduml
