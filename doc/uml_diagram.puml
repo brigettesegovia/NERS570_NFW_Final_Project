@@ -1,25 +1,55 @@
 @startuml
 
-class Particle
-Particle : - mass
-Particle : - position
-Particle : - velocity
-Particle : - setMass()
-Particle : - getMass()
-Particle : - setPos()
-Particle : - getPos()
-Particle : - setVel()
-Particle : - getVel()
-Particle : - grid_point_assignment()
+class DMparticle
+DMparticle : - mass : double
+DMparticle : - position : vector<double>
+DMparticle : - velocity : vector<double>
+DMparticle : + getMass(): double
+DMparticle : + setPos(position: vector<double>): void
+DMparticle : + getPos(): vector<double>
+DMparticle : + setVel(velocity: vector<double>): void
+DMparticle : + getVel(): vector<double>
+DMparticle : + MeshPointAssignment(position: vector<double>): vector<size_t> 
 
-class Grid
-Grid : - position
-Grid : - particle_association[]
-Grid : - density
-
-class Quantity_Calculation
-Quantity_Calculation : - potential
+abstract class Mesh
+Mesh : - position : size_t***[]
+' What particles are associated with this mesh cell
+Mesh : - ParticleAssociation[] : size_t***[]
+Mesh : - particles[] : vector<DMparticle>
 '
-Quantity_Calculation : + Final_Potential()
+Mesh : + getPos() : size_t***[]
+Mesh : {abstract} + CalculatePotential() : void
+Mesh : {abstract} + CalculateDensity() : void
+Mesh : {abstract} + UpdateParticlePositions() : void
+Mesh : {abstract} + UpdateParticleVelocities() : void
+Mesh : {abstract} + InitializeParticles() : void
+
+class MeshSerial
+MeshSerial : - density : Matrix
+MeshSerial : - potential : Matrix
+
+class MeshParallel
+MeshParallel : - density : double***[]
+MeshParallel : - potential : double***[]
+
+class Matrix
+Matrix : - nrows : size_t
+Matrix : - ncols : size_t
+Matrix : - nnz : size_t
+Matrix : - values : vector<double>
+Matrix : - row_ptr : vector<size_t>
+Matrix : - col_idx : vector<size_t>
+Matrix : + MatVec(vecin: vector<double>) : vector<double>
+Matrix : + setValue(i: size_t, j: size_t, value: double) : void
+Matrix : + getValue(i: size_t, j: size_t) : double
+Matrix : + Transpose() : Matrix
+Matrix : + Assemble() : void
+Matrix : + Dissemble() : void
+
+
+Mesh o-- DMparticle : contains
+MeshSerial --|> Mesh
+MeshParallel --|> Mesh
+Matrix -- MeshSerial : used by
 
 @enduml
