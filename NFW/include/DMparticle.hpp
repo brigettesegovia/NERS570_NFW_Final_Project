@@ -19,7 +19,6 @@ namespace NBody
         
         public:
             // constructors
-            DMparticle() = default; // default
             DMparticle(const double mass); // give it mass only
             DMparticle(const double mass, const vector<double> pos, const vector<double> vel); // give it mass, position, & velocity
             // copy and move constructors
