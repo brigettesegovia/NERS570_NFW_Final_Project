@@ -1,4 +1,4 @@
-@startuml
+@startuml NFW
 
 class DMparticle
 DMparticle : - mass : double
@@ -40,9 +40,9 @@ Matrix : - values : vector<double>
 Matrix : - row_ptr : vector<size_t>
 Matrix : - col_idx : vector<size_t>
 Matrix : + MatVec(vecin: vector<double>) : vector<double>
-Matrix : + setValue(i: size_t, j: size_t, value: double) : void
-Matrix : + getValue(i: size_t, j: size_t) : double
-Matrix : + Transpose() : Matrix
+Matrix : + SetValue(i: size_t, j: size_t, value: double) : void
+Matrix : + GetValue(i: size_t, j: size_t) : double
+'Matrix : + Transpose() : Matrix
 Matrix : + Assemble() : void
 Matrix : + Dissemble() : void
 
