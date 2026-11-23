@@ -1,0 +1,18 @@
+# build outputs
+leapfrog_serial
+*.o
+*.a
+build/
+
+# simulation output
+*.csv
+*.log
+plots/
+*.mp4
+*.gif
+
+# editor / OS / notebook clutter
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+.vscode/
