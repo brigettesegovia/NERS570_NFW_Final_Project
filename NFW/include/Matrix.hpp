@@ -57,7 +57,7 @@ namespace NBody
             void Disassemble();
             
             // linear algebra functions
-            vector<double> MatVec(const vector<double> vecin);
+            vector<double> MatVec(const vector<double> vecin) const;
             //Matrix Transpose() const;
     };
 }

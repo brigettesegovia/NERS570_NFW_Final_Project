@@ -41,7 +41,7 @@ namespace NBody
             [[nodiscard]] size_t*** getPosition() const noexcept { return _position; }
             
             // abstract methods
-            virtual void CalculatePotential() = 0;
+            //virtual void CalculatePotential() = 0;
             virtual void CalculateDensity() = 0;
             virtual void UpdateParticlePositions() = 0;
             virtual void UpdateParticleVelocities() = 0;

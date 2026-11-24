@@ -133,7 +133,7 @@ namespace NBody
         // convert row_ptr to actual row_ptr array by doing a prefix sum
         for (size_t k=1; k<=this->_nrows; k++)
         {
-            this->_row_ptr[k] = this->_row_ptr[k] + this->_row_ptr[k-1];
+            this->_row_ptr[k] += this->_row_ptr[k-1];
         }
         
         this->_state = MatrixState::assembled;
@@ -176,7 +176,7 @@ namespace NBody
      * @param vecin: input vector (vector<double>)
      * @returns: product of the matrix and `vecin` (vector<double>)
      */
-    vector<double> Matrix::MatVec(const vector<double> vecin)
+    vector<double> Matrix::MatVec(const vector<double> vecin) const
     {
         // make sure matrix is ready to go
         assert(this->_state == MatrixState::assembled);
@@ -202,7 +202,7 @@ namespace NBody
                 // column index:
                 size_t j = _col_idx[_row_ptr[i]+k];
                 // do the multiplication
-                vecout[i] = vecout[i] + _values[_row_ptr[i]+k]*vecin[j];
+                vecout[i] += _values[_row_ptr[i]+k]*vecin[j];
             }
         }
 
