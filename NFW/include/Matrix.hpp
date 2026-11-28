@@ -36,8 +36,15 @@ namespace NBody
             
 
         public:
-            // constructor
+            // default constructor
             Matrix(const size_t nrows, const size_t ncols);
+
+            // copy and move constructors
+            Matrix(const Matrix& other) = default;                 // copy
+            Matrix& operator=(const Matrix& other) = default;      // copy assignment
+            Matrix(Matrix&& other) noexcept = default;             // move
+            Matrix& operator=(Matrix&& other) noexcept = default;  // move assginment
+
             // destructor
             ~Matrix() = default;
 
@@ -57,8 +64,9 @@ namespace NBody
             void Disassemble();
             
             // linear algebra functions
-            vector<double> MatVec(const vector<double> vecin) const;
-            //Matrix Transpose() const;
+            vector<double> MatVec(const vector<double> vecin);
+            Matrix MatMul(Matrix matin);
+            vector<vector<double>> MatMul(vector<vector<double>> matin);
     };
 }
 

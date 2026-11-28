@@ -58,12 +58,12 @@ namespace NBody
      */
     double Matrix::GetValue(const size_t i, const size_t j) const noexcept
     {
-        assert(this->_state > MatrixState::initialized);
+        assert(this->_state >= MatrixState::initialized);
         assert(i < this->_nrows);
         assert(j < this->_ncols);
 
         // get value from buildCoeff if still building
-        if (this->_state == MatrixState::building) 
+        if (this->_state <= MatrixState::building) 
         {
             // search for index pair in _buildCoeff
             auto it = this->_buildCoeff.find(std::make_pair(i, j));
@@ -176,7 +176,7 @@ namespace NBody
      * @param vecin: input vector (vector<double>)
      * @returns: product of the matrix and `vecin` (vector<double>)
      */
-    vector<double> Matrix::MatVec(const vector<double> vecin) const
+    vector<double> Matrix::MatVec(const vector<double> vecin)
     {
         // make sure matrix is ready to go
         assert(this->_state == MatrixState::assembled);
@@ -209,5 +209,73 @@ namespace NBody
         return vecout;
     }
 
+    // NOTE: MatMuls can be made faster for sure
+    // but I want them to *work* first
+    Matrix Matrix::MatMul(Matrix matin)
+    {
+        // make sure our dimensions match
+        assert(matin.GetNrows() == this->_ncols);
+
+        // create output matrix 
+        Matrix matout(this->_nrows, matin.GetNcols());
+
+        // loop through rows of this matrix
+        for (size_t i=0; i<this->_nrows; i++)
+        {
+            // check how many in this row
+            size_t rowsize = _row_ptr[i+1]-_row_ptr[i];
+            
+            
+            // loop through all nonzeros in row
+            for (size_t k=0; k<rowsize; k++)
+            {
+                // row index is i
+                // column index:
+                size_t j = _col_idx[_row_ptr[i]+k];
+                
+                // loop through all columns of input matrix
+                // don't have access to the internals sadly 
+                for (size_t n=0; n<matin.GetNcols(); n++)
+                {
+                    
+                    matout.SetValue(i,n, 
+                        matout.GetValue(i,n) + _values[_row_ptr[i]+k]*matin.GetValue(j,n));
+                }
+            }
+        }
+        matout.Assemble();
+        return matout;
+    }
+
+    vector<vector<double>> Matrix::MatMul(vector<vector<double>> matin)
+    {
+        // make sure our dimensions match
+        assert(matin.size() == this->_ncols);
+        
+        // create output matrix 
+        vector<vector<double>> matout(this->_nrows, vector<double> (matin[0].size(), 0.0));
+
+        // loop through rows of this matrix
+        for (size_t i=0; i<this->_nrows; i++)
+        {
+            // check how many in this row
+            size_t rowsize = _row_ptr[i+1]-_row_ptr[i];
+            
+            // loop through all nonzeros in row
+            for (size_t k=0; k<rowsize; k++)
+            {
+                // row index is i
+                // column index:
+                size_t j = _col_idx[_row_ptr[i]+k];
+                
+                // loop through all columns of input matrix
+                for (size_t n=0; n<matin[0].size(); n++)
+                {
+                    matout[i][n] += _values[_row_ptr[i]+k]*matin[j][n];
+                }
+            }
+        }
+        return matout;
+    }
     
 }
