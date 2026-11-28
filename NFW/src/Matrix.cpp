@@ -209,5 +209,26 @@ namespace NBody
         return vecout;
     }
 
+    /**
+     * @brief Returns all nonzero entries in a specified row
+     *
+     * @param i: row index
+     * @return vector of (column index, value) pairs
+     */
+    vector<pair<size_t, double>> Matrix::GetRowEntries(const size_t i) const
+    {
+        assert(this->_state == MatrixState::assembled);
+        assert(i < this->_nrows);
+
+        vector<pair<size_t, double>> row;
+
+        for (size_t k = _row_ptr[i]; k < _row_ptr[i+1]; k++)
+        {
+            row.push_back({_col_idx[k], _values[k]});
+        }
+
+        return row;
+    }
+
     
 }

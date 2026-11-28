@@ -59,6 +59,9 @@ namespace NBody
             // linear algebra functions
             vector<double> MatVec(const vector<double> vecin);
             //Matrix Transpose() const;
+
+            // Returns all nonzero entries in a specified row
+            vector<pair<size_t, double>> GetRowEntries(const size_t i) const;
     };
 }
 
